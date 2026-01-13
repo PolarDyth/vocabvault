@@ -48,11 +48,11 @@ export function AdminOverview() {
           }
         }
 
-        // Try to get words count
-        const wordsResult = await supabase.from("words").select("*", { count: "exact", head: true })
+        // Get total words count using admin function (bypasses RLS)
+        const { data: wordsCountData, error: wordsError } = await supabase.rpc("get_total_words_count")
 
-        if (!wordsResult.error) {
-          totalWords = wordsResult.count || 0
+        if (!wordsError && wordsCountData !== null) {
+          totalWords = wordsCountData
         }
 
         // Try to get AI features count

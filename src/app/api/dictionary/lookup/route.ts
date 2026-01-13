@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import type { WordCategory } from "@/lib/types"
+import { checkRateLimit, rateLimitConfigs } from "@/lib/rate-limit"
 
 // Types for Jisho API response
 interface JishoSense {
@@ -236,6 +237,29 @@ function detectCategory(partsOfSpeech: string[]): { category: WordCategory; verb
 }
 
 export async function GET(request: NextRequest) {
+  // Rate limit by IP address
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0] || 
+             request.headers.get("x-real-ip") || 
+             "anonymous"
+  
+  const rateLimit = await checkRateLimit(ip, "dictionary", rateLimitConfigs.dictionary)
+  
+  if (!rateLimit.success) {
+    return NextResponse.json(
+      { 
+        error: "Rate limit exceeded. Please slow down.",
+        retryAfter: rateLimit.resetIn
+      },
+      { 
+        status: 429,
+        headers: {
+          "Retry-After": String(rateLimit.resetIn),
+          "X-RateLimit-Remaining": "0",
+        }
+      }
+    )
+  }
+
   const searchParams = request.nextUrl.searchParams
   const query = searchParams.get("q")
 
