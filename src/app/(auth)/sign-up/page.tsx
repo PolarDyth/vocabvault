@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { BrandLogo } from "@/components/brand-logo"
 import { createClient } from "@/utils/supabase/client"
+import { OAuthButtons, OAuthDivider } from "@/components/auth/oauth-buttons"
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("")
@@ -62,6 +63,8 @@ export default function SignUpPage() {
               <CardDescription>Start building your vocabulary today</CardDescription>
             </CardHeader>
             <CardContent>
+              <OAuthButtons mode="signup" />
+              <OAuthDivider />
               <form onSubmit={handleSignUp}>
                 <div className="flex flex-col gap-6">
                   <div className="grid gap-2">
