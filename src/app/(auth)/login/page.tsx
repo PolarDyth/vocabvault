@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { BrandLogo } from "@/components/brand-logo"
 import { createClient } from "@/utils/supabase/client"
+import { OAuthButtons, OAuthDivider } from "@/components/auth/oauth-buttons"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -52,6 +53,8 @@ export default function LoginPage() {
               <CardDescription>Sign in to access your vocabulary vault</CardDescription>
             </CardHeader>
             <CardContent>
+              <OAuthButtons mode="login" />
+              <OAuthDivider />
               <form onSubmit={handleLogin}>
                 <div className="flex flex-col gap-6">
                   <div className="grid gap-2">
@@ -66,7 +69,15 @@ export default function LoginPage() {
                     />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="password">Password</Label>
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="password">Password</Label>
+                      <Link
+                        href="/forgot-password"
+                        className="text-sm underline underline-offset-4 hover:text-primary"
+                      >
+                        Forgot password?
+                      </Link>
+                    </div>
                     <Input
                       id="password"
                       type="password"
