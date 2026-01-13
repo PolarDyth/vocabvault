@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { BookOpen, GraduationCap, Sparkles, LogOut, User, Shield } from "lucide-react"
+import { BookOpen, GraduationCap, Sparkles, LogOut, User, Shield, Settings } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { BrandLogo } from "@/components/brand-logo"
 import { createClient } from "@/utils/supabase/client"
@@ -39,7 +39,7 @@ export function AppHeader() {
   }
 
   const allNavItems = [
-    { href: "/dictionary", label: "Dictionary", icon: BookOpen },
+    { href: "/", label: "Dictionary", icon: BookOpen },
     { href: "/flashcards", label: "Flashcards", icon: GraduationCap },
     { href: "/assistant", label: "AI Assistant", icon: Sparkles },
   ]
@@ -60,7 +60,7 @@ export function AppHeader() {
     <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-8">
-          <BrandLogo size="sm" href="/dictionary" />
+          <BrandLogo size="sm" href="/" />
           <nav className="hidden md:flex items-center gap-1">
             {navItems.map((item) => (
               <Link key={item.href} href={item.href}>
@@ -125,17 +125,21 @@ export function AppHeader() {
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuSeparator className="md:hidden" />
+                <DropdownMenuItem asChild>
+                  <Link href="/profile" className="flex items-center gap-2">
+                    <Settings className="h-4 w-4" />
+                    Settings
+                  </Link>
+                </DropdownMenuItem>
                 {showAdmin && (
-                  <>
-                    <DropdownMenuItem asChild>
-                      <Link href="/admin" className="flex items-center gap-2">
-                        <Shield className="h-4 w-4" />
-                        Admin Dashboard
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                  </>
+                  <DropdownMenuItem asChild>
+                    <Link href="/admin" className="flex items-center gap-2">
+                      <Shield className="h-4 w-4" />
+                      Admin Dashboard
+                    </Link>
+                  </DropdownMenuItem>
                 )}
+                <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut} className="text-destructive">
                   <LogOut className="h-4 w-4 mr-2" />
                   Sign Out
