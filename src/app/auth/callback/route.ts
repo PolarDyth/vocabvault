@@ -18,6 +18,7 @@ export async function GET(request: Request) {
     }
   }
 
+  console.log("Redirecting to: ", `${origin}${next}`)
   // If there's an error or no code, redirect to error page
   return NextResponse.redirect(`${origin}/error?message=Could not authenticate user`)
 }
