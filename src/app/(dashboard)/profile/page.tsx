@@ -203,8 +203,11 @@ export default function ProfilePage() {
       return
     }
 
-    if (newPassword.length < 6) {
-      setPasswordError("Password must be at least 6 characters")
+    // Strong password validation
+    const { validatePassword } = await import("@/lib/password-validation")
+    const validation = validatePassword(newPassword)
+    if (!validation.isValid) {
+      setPasswordError(validation.errors.join(". "))
       return
     }
 
@@ -212,6 +215,9 @@ export default function ProfilePage() {
     const supabase = createClient()
 
     try {
+      // Re-authenticate with current password for security (if provided)
+      // Note: Supabase updateUser works when user has a valid session from password reset flow
+      // For additional security, you may want to require current password verification
       const { error } = await supabase.auth.updateUser({
         password: newPassword,
       })

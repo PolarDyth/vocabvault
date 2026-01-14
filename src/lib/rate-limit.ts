@@ -18,6 +18,8 @@ interface RateLimitConfig {
   maxRequests: number
   /** Time window in seconds */
   windowSeconds: number
+  /** Whether to allow requests when rate limit check fails (default: true for non-sensitive endpoints) */
+  failOpen?: boolean
 }
 
 interface RateLimitResponse {
@@ -49,8 +51,9 @@ export async function checkRateLimit(
 
     if (error || !data) {
       console.error("Rate limit check failed:", error)
-      // Fail open - allow request if rate limit check fails
-      return { success: true, remaining: config.maxRequests, resetIn: config.windowSeconds }
+      // Fail open/closed based on config (default: open for backwards compatibility)
+      const shouldAllow = config.failOpen !== false
+      return { success: shouldAllow, remaining: shouldAllow ? config.maxRequests : 0, resetIn: config.windowSeconds }
     }
 
     return {
@@ -60,8 +63,9 @@ export async function checkRateLimit(
     }
   } catch (err) {
     console.error("Rate limit error:", err)
-    // Fail open
-    return { success: true, remaining: config.maxRequests, resetIn: config.windowSeconds }
+    // Fail open/closed based on config
+    const shouldAllow = config.failOpen !== false
+    return { success: shouldAllow, remaining: shouldAllow ? config.maxRequests : 0, resetIn: config.windowSeconds }
   }
 }
 
@@ -85,7 +89,9 @@ export async function checkRateLimitWithClient(
 
     if (error || !data) {
       console.error("Rate limit check failed:", error)
-      return { success: true, remaining: config.maxRequests, resetIn: config.windowSeconds }
+      // Fail open/closed based on config (default: open for backwards compatibility)
+      const shouldAllow = config.failOpen !== false
+      return { success: shouldAllow, remaining: shouldAllow ? config.maxRequests : 0, resetIn: config.windowSeconds }
     }
 
     return {
@@ -95,24 +101,26 @@ export async function checkRateLimitWithClient(
     }
   } catch (err) {
     console.error("Rate limit error:", err)
-    return { success: true, remaining: config.maxRequests, resetIn: config.windowSeconds }
+    // Fail open/closed based on config
+    const shouldAllow = config.failOpen !== false
+    return { success: shouldAllow, remaining: shouldAllow ? config.maxRequests : 0, resetIn: config.windowSeconds }
   }
 }
 
 // Pre-configured rate limit configs
 export const rateLimitConfigs = {
-  // AI Assistant: 5 requests per minute
-  assistant: { maxRequests: 5, windowSeconds: 60 },
+  // AI Assistant: 5 requests per minute (fail closed - sensitive/costly endpoint)
+  assistant: { maxRequests: 5, windowSeconds: 60, failOpen: false },
   
-  // Example generation: 10 requests per minute
-  examples: { maxRequests: 10, windowSeconds: 60 },
+  // Example generation: 10 requests per minute (fail closed - sensitive/costly endpoint)
+  examples: { maxRequests: 10, windowSeconds: 60, failOpen: false },
   
-  // Dictionary lookup: 30 requests per minute
-  dictionary: { maxRequests: 30, windowSeconds: 60 },
+  // Dictionary lookup: 30 requests per minute (fail open - public endpoint)
+  dictionary: { maxRequests: 30, windowSeconds: 60, failOpen: true },
   
   // General API: 100 requests per minute
-  general: { maxRequests: 100, windowSeconds: 60 },
+  general: { maxRequests: 100, windowSeconds: 60, failOpen: true },
   
-  // Auth actions: 5 requests per minute
-  auth: { maxRequests: 5, windowSeconds: 60 },
+  // Auth actions: 5 requests per minute (fail closed - security sensitive)
+  auth: { maxRequests: 5, windowSeconds: 60, failOpen: false },
 }

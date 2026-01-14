@@ -12,6 +12,7 @@ import { BrandLogo } from "@/components/brand-logo"
 import { createClient } from "@/utils/supabase/client"
 import { CheckCircle2 } from "lucide-react"
 import Link from "next/link"
+import { validatePassword, getStrengthColor, getStrengthPercent } from "@/lib/password-validation"
 
 export default function UpdatePasswordPage() {
   const [password, setPassword] = useState("")
@@ -51,8 +52,10 @@ export default function UpdatePasswordPage() {
       return
     }
 
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters")
+    // Strong password validation
+    const validation = validatePassword(password)
+    if (!validation.isValid) {
+      setError(validation.errors.join(". "))
       setIsLoading(false)
       return
     }
