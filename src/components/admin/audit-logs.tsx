@@ -25,7 +25,8 @@ export function AuditLogs() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [actionFilter, setActionFilter] = useState<string>("all")
-  const [selectedLog, setSelectedLog] = useState<AuditLog | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [selectedLog, _setSelectedLog] = useState<AuditLog | null>(null)
 
   const fetchLogs = useCallback(async () => {
     setLoading(true)
@@ -60,6 +61,7 @@ export function AuditLogs() {
   }, [actionFilter])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchLogs()
   }, [fetchLogs])
 

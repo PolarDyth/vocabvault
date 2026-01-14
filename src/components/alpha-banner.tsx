@@ -77,17 +77,6 @@ export function AlphaBanner() {
     }
   }
 
-  const getTypeIcon = (type: FeedbackType) => {
-    switch (type) {
-      case "bug":
-        return <Bug className="h-4 w-4" />
-      case "feature":
-        return <Lightbulb className="h-4 w-4" />
-      case "feedback":
-        return <MessageSquare className="h-4 w-4" />
-    }
-  }
-
   return (
     <div className="bg-amber-500/10 border-b border-amber-500/20">
       <div className="container mx-auto px-4 py-2 flex items-center justify-between gap-4">

@@ -128,6 +128,7 @@ export function WordForm({ open, onOpenChange, onSubmit, initialData, isLoading 
     } finally {
       setIsLookingUp(false)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const selectResult = (result: DictionaryResult, index: number) => {

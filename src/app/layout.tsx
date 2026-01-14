@@ -6,9 +6,6 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { AlphaBanner } from "@/components/alpha-banner"
 import "./globals.css"
 
-const _inter = Inter({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
-const _notoSansJP = Noto_Sans_JP({ subsets: ["latin"], weight: ["300", "400", "500", "700"] })
 
 export const metadata: Metadata = {
   title: "VocabVault - Your Words, Your Way",

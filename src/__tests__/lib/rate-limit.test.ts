@@ -5,7 +5,7 @@ import { rateLimitConfigs } from "@/lib/rate-limit"
 const mockRpc = vi.fn()
 const mockSupabaseClient = {
   rpc: mockRpc,
-}
+} as unknown as import("@supabase/supabase-js").SupabaseClient
 
 vi.mock("@/utils/supabase/server", () => ({
   createClient: vi.fn(() => Promise.resolve(mockSupabaseClient)),
@@ -84,7 +84,7 @@ describe("Supabase Rate Limiter", () => {
       })
 
       const result = await checkRateLimitWithClient(
-        mockSupabaseClient as any,
+        mockSupabaseClient,
         "user-123",
         "assistant",
         { maxRequests: 5, windowSeconds: 60, failOpen: false }
@@ -104,7 +104,7 @@ describe("Supabase Rate Limiter", () => {
       })
 
       const result = await checkRateLimitWithClient(
-        mockSupabaseClient as any,
+        mockSupabaseClient,
         "user-123",
         "assistant",
         { maxRequests: 5, windowSeconds: 60, failOpen: false }
@@ -124,7 +124,7 @@ describe("Supabase Rate Limiter", () => {
       })
 
       await checkRateLimitWithClient(
-        mockSupabaseClient as any,
+        mockSupabaseClient,
         "user-456",
         "examples",
         { maxRequests: 10, windowSeconds: 60, failOpen: false }
@@ -146,7 +146,7 @@ describe("Supabase Rate Limiter", () => {
         })
 
         const result = await checkRateLimitWithClient(
-          mockSupabaseClient as any,
+          mockSupabaseClient,
           "user-123",
           "dictionary",
           { maxRequests: 30, windowSeconds: 60, failOpen: true }
@@ -163,7 +163,7 @@ describe("Supabase Rate Limiter", () => {
         })
 
         const result = await checkRateLimitWithClient(
-          mockSupabaseClient as any,
+          mockSupabaseClient,
           "user-123",
           "assistant",
           { maxRequests: 5, windowSeconds: 60, failOpen: false }
@@ -180,7 +180,7 @@ describe("Supabase Rate Limiter", () => {
         })
 
         const result = await checkRateLimitWithClient(
-          mockSupabaseClient as any,
+          mockSupabaseClient,
           "user-123",
           "general",
           { maxRequests: 100, windowSeconds: 60 }
@@ -196,7 +196,7 @@ describe("Supabase Rate Limiter", () => {
         })
 
         const result = await checkRateLimitWithClient(
-          mockSupabaseClient as any,
+          mockSupabaseClient,
           "user-123",
           "auth",
           { maxRequests: 5, windowSeconds: 60, failOpen: false }
@@ -209,7 +209,7 @@ describe("Supabase Rate Limiter", () => {
         mockRpc.mockRejectedValue(new Error("Network error"))
 
         const result = await checkRateLimitWithClient(
-          mockSupabaseClient as any,
+          mockSupabaseClient,
           "user-123",
           "assistant",
           { maxRequests: 5, windowSeconds: 60, failOpen: false }

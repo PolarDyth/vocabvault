@@ -29,6 +29,7 @@ export function AppHeader() {
 
   // Prevent hydration mismatch by only showing dynamic content after mount
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true)
   }, [])
 

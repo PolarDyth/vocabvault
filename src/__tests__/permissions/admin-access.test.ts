@@ -46,7 +46,10 @@ describe("Admin Page Permissions", () => {
   })
 
   // Helper to simulate the admin page logic
-  async function checkAdminAccess(user: any, profile: any): Promise<{ allowed: boolean; redirectTo?: string }> {
+  async function checkAdminAccess(
+    user: { id: string } | null | undefined,
+    profile: { role?: string } | null | undefined
+  ): Promise<{ allowed: boolean; redirectTo?: string }> {
     // Simulate the admin page logic
     if (!user) {
       return { allowed: false, redirectTo: "/login" }
