@@ -76,14 +76,14 @@ export function UserManagement() {
 
       const usersWithStats = await Promise.all(
         filteredProfiles.map(async (profile) => {
-          const { count } = await supabase
-            .from("words")
-            .select("*", { count: "exact", head: true })
-            .eq("user_id", profile.user_id)
+          // Use admin function to get word count (bypasses RLS)
+          const { data: wordCount } = await supabase.rpc("get_user_word_count", {
+            target_user_id: profile.user_id,
+          })
 
           return {
             ...profile,
-            word_count: count || 0,
+            word_count: wordCount || 0,
           }
         }),
       )
