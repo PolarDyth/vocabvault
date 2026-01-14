@@ -26,7 +26,7 @@ export function AuditLogs() {
   const [error, setError] = useState<string | null>(null)
   const [actionFilter, setActionFilter] = useState<string>("all")
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedLog, _setSelectedLog] = useState<AuditLog | null>(null)
+  const [selectedLog, setSelectedLog] = useState<AuditLog | null>(null)
 
   const fetchLogs = useCallback(async () => {
     setLoading(true)
