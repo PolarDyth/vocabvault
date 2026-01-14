@@ -11,14 +11,14 @@ export default async function AdminPage() {
   } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect("/auth/login")
+    redirect("/login")
   }
 
   // Check if user is admin
   const { data: profile } = await supabase.from("user_profiles").select("role").eq("user_id", user.id).single()
 
   if (profile?.role !== "admin") {
-    redirect("/dictionary")
+    redirect("/")
   }
 
   return <AdminDashboard />

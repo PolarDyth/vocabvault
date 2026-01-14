@@ -3,11 +3,9 @@ import type { Metadata } from "next"
 import { Inter, Geist_Mono, Noto_Sans_JP } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
+import { AlphaBanner } from "@/components/alpha-banner"
 import "./globals.css"
 
-const _inter = Inter({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
-const _notoSansJP = Noto_Sans_JP({ subsets: ["latin"], weight: ["300", "400", "500", "700"] })
 
 export const metadata: Metadata = {
   title: "VocabVault - Your Words, Your Way",
@@ -47,6 +45,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <AlphaBanner />
           {children}
         </ThemeProvider>
         <Analytics />

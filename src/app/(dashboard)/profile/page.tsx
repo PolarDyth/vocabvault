@@ -70,7 +70,8 @@ export default function ProfilePage() {
   const [mounted, setMounted] = useState(false)
 
   // Password change state
-  const [currentPassword, setCurrentPassword] = useState("")
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_currentPassword, setCurrentPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [passwordError, setPasswordError] = useState<string | null>(null)

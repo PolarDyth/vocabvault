@@ -36,9 +36,7 @@ export async function updateSession(request: NextRequest) {
   // issues with users being randomly logged out.
 
   // Refresh session if expired - this will update cookies
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  await supabase.auth.getUser();
 
   // Optional: Redirect unauthenticated users from protected routes
   // Uncomment and customize if you want middleware-level auth protection

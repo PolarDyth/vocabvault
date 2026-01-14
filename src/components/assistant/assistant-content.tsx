@@ -65,6 +65,7 @@ export function AssistantContent({ words, userId }: AssistantContentProps) {
   // Load conversations on mount
   useEffect(() => {
     loadConversations()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Scroll to bottom when messages change
@@ -79,6 +80,7 @@ export function AssistantContent({ words, userId }: AssistantContentProps) {
     if (status === "ready" && messages.length > 0 && activeConversationId) {
       saveMessagesToDatabase()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, messages.length])
 
   const loadConversations = async () => {

@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Users, Sparkles, ScrollText, LayoutDashboard } from "lucide-react"
+import Link from "next/link"
 import { AdminOverview } from "./admin-overview"
 import { UserManagement } from "./user-management"
 import { AIFeatureToggles } from "./ai-feature-toggle"
@@ -20,9 +21,9 @@ export function AdminDashboard() {
               <h1 className="text-2xl font-semibold text-foreground">Admin Dashboard</h1>
               <p className="text-sm text-muted-foreground">Manage users and application settings</p>
             </div>
-            <a href="/" className="text-sm text-primary hover:underline">
+            <Link href="/" className="text-sm text-primary hover:underline">
               Back to Dictionary
-            </a>
+            </Link>
           </div>
         </div>
       </header>
