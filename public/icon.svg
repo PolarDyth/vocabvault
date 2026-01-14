@@ -1,0 +1,11 @@
+<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background rounded square -->
+  <rect width="32" height="32" rx="6" fill="#0d9488"/>
+  <!-- Book/vault shape -->
+  <g stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M7 25.5A2.5 2.5 0 0 1 9.5 23H25"/>
+    <path d="M9.5 5H25v22H9.5A2.5 2.5 0 0 1 7 24.5v-17A2.5 2.5 0 0 1 9.5 5z"/>
+    <!-- V letter inside -->
+    <path d="M12 11l4 6 4-6" stroke-width="2.5"/>
+  </g>
+</svg>
