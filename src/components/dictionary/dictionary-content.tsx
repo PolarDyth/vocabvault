@@ -105,6 +105,7 @@ export function DictionaryContent({ initialWords, userId }: DictionaryContentPro
       .map((t) => t.trim())
       .filter(Boolean)
 
+    // Defense-in-depth: verify both id AND user_id to prevent unauthorized access
     const { error } = await supabase
       .from("words")
       .update({
@@ -119,6 +120,7 @@ export function DictionaryContent({ initialWords, userId }: DictionaryContentPro
         updated_at: new Date().toISOString(),
       })
       .eq("id", editingWord.id)
+      .eq("user_id", userId)
 
     if (!error) {
       mutate(["words", userId])
@@ -132,7 +134,12 @@ export function DictionaryContent({ initialWords, userId }: DictionaryContentPro
     setIsLoading(true)
     const supabase = createClient()
 
-    const { error } = await supabase.from("words").delete().eq("id", deletingWord.id)
+    // Defense-in-depth: verify both id AND user_id to prevent unauthorized access
+    const { error } = await supabase
+      .from("words")
+      .delete()
+      .eq("id", deletingWord.id)
+      .eq("user_id", userId)
 
     if (!error) {
       mutate(["words", userId])
@@ -160,8 +167,13 @@ export function DictionaryContent({ initialWords, userId }: DictionaryContentPro
       const { examples } = await response.json()
 
       // Update word with new examples
+      // Defense-in-depth: verify both id AND user_id to prevent unauthorized access
       const supabase = createClient()
-      await supabase.from("words").update({ example_sentences: examples }).eq("id", word.id)
+      await supabase
+        .from("words")
+        .update({ example_sentences: examples })
+        .eq("id", word.id)
+        .eq("user_id", userId)
 
       mutate(["words", userId])
 

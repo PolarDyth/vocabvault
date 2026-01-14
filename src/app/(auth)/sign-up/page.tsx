@@ -40,6 +40,15 @@ export default function SignUpPage() {
       return
     }
 
+    // Import and validate password strength
+    const { validatePassword } = await import("@/lib/password-validation")
+    const validation = validatePassword(password)
+    if (!validation.isValid) {
+      setError(validation.errors.join(". "))
+      setIsLoading(false)
+      return
+    }
+
     try {
       const { error } = await supabase.auth.signUp({
         email,
