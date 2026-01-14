@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter, Geist_Mono, Noto_Sans_JP } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
+import { AlphaBanner } from "@/components/alpha-banner"
 import "./globals.css"
 
 const _inter = Inter({ subsets: ["latin"] })
@@ -47,6 +48,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <AlphaBanner />
           {children}
         </ThemeProvider>
         <Analytics />
