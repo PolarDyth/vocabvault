@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, security-checkup]
+    branches: [main, tests]
   pull_request:
     branches: [main]
 
